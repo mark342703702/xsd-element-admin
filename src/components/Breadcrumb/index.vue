@@ -29,7 +29,7 @@ export default {
   methods: {
     getBreadcrumb() {
       const { params } = this.$route
-      const matched = this.$route.matched.filter(item => {
+      let matched = this.$route.matched.filter(item => {
         if (item.name) {
           // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
           var toPath = pathToRegexp.compile(item.path)
@@ -37,10 +37,10 @@ export default {
           return true
         }
       })
-      // const first = matched[0]
-      // if (first && first.name !== 'dashboard') {
-      //   matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
-      // }
+      const first = matched[0]
+      if (first && first.name.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
+        matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
+      }
       this.levelList = matched
     }
   }
